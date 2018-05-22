@@ -1,0 +1,250 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9em;
+    background-repeat: no-repeat;
+    background: url(https://desktopwalls.net/wp-content/uploads/2014/09/Minions%20At%20Cinema%20Watching%20Movie%20Desktop%20Wallpaper.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.thumbnail:hover {
+    opacity: 0.9;
+    box-shadow: 0px 0px 10px black !important;       
+}
+
+h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: left;
+}
+
+.template.container p, h3, h4 {
+    font-weight: bold;
+    margin: 0.5em 0;
+}
+
+#nav {
+    box-shadow: 0px 0px 10px black;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index:1000;
+}
+
+.navbar {
+    height: 70px;
+}
+
+nav a {
+    font-weight: bold;
+}
+
+div.template.container > h1 {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.active li a {
+    color:  red !important;
+}
+
+.bg-company-dark {
+    background-color: rgba(12, 12, 12, 0.903);    
+}
+
+#wrapper {
+    margin-top: 4.9em;
+}
+
+.template {
+    background-color: rgba(245, 245, 245, 0.903);
+    height: auto;
+    box-shadow: 0px 0px 30px black;
+    padding-top: 2em;
+}
+
+.template-no-shadow {
+    background-color: rgba(245, 245, 245, 0.903);
+    height: auto;
+    margin: 0 0.6em;
+    border: 1px solid rgb(211, 210, 210);
+    border-radius: 2px;
+}
+
+.checked {
+    color: #C82333;
+}
+
+#news {
+    margin-top: 2em;
+}
+
+#news > li {
+    cursor: pointer;
+}
+
+.form-control {
+    width: 250px;
+}
+
+nav li {
+    text-decoration-style: none;
+    cursor: pointer;
+}
+
+.movie {
+    cursor: pointer;
+}
+
+#registerDiv input {
+    margin:3px auto;
+}
+
+select.form-control {
+    width: 30%
+}
+
+#date-search {
+    width: 100%;
+    margin: auto;
+}
+
+#regButton {
+    margin:3px auto;
+}
+
+.movie > h4, img {
+    text-align: center;
+    margin: auto;
+    display: block;
+}
+
+#add-favorite-btn, #make-reservation-btn {
+    float: right;
+    margin-left: 1em;
+} 
+
+button {
+    box-shadow: 0px 0px 1px black;
+}
+
+#poster-details {
+    float: left;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: whitesmoke;
+}
+
+iframe {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+#demo {
+    background-color: whitesmoke;
+    
+}
+
+#cinemas li {
+    text-align: center;
+}
+
+#cinemas .cinema-info{
+    margin: 1em;
+}
+
+#cinemas h3 {
+    color: darkred;
+    font-size: 1.3em;
+}
+
+#cinemas p {
+    color: gray;
+    font-size: 1em;
+}
+
+#cinemas img {
+    cursor: pointer;    
+    border-radius: 1px;
+    box-shadow: 0px 0px 10px black;
+}
+
+.carousel-inner{
+    width:100%;
+    max-height: 400px !important;
+}
+
+#profile-page {
+    text-align: center;
+}
+
+.form-control {
+    width: 50%;
+}
+
+#movie-program li .active, #program-cinema li {
+    margin: auto;
+    width: 50%;
+    cursor: pointer;
+}
+
+#program-cinema li {
+    margin: 2em;
+    width: 10%;
+}
+
+#program-cinema, h1 {
+    margin: 0 auto;
+}
+
+.program-cinema h1 {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.col {
+    text-align: center;
+}
+
+#room-name{
+   background-color: rgba(255,255,255, 0.5); 
+    font-weight: bold;
+   padding: 1em 0em;
+}
+
+#room-name h1{
+    font-size: 2.5em;
+    text-align: center;
+}
+
+#room-nav > div > ul li{
+   font-size: 2em;
+}
+
+#imax, #premium,#luxe, #vip {
+    display: none;
+}
+
+.text{
+    /* color: white; */
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.movie-item {
+    cursor: pointer;
+    margin: 2em;
+}
+ #logDiv{
+    position: absolute;
+ }
+
+#reality-css div{
+    display: inline-block;
+    width: 49%;
+}

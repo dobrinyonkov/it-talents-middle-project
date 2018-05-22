@@ -1,0 +1,16 @@
+{
+  "name": "kinoarena",
+  "version": "1.0.0",
+  "description": "web application for educational purposes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "None",
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "handlebars": "^4.0.11",
+    "jquery": "^3.3.1"
+  }
+}

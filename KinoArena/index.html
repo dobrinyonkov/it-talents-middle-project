@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KinoArena</title>
+
+    <link href="assets/images/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.min.css">
+    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style/style.reset.css">
+    <link rel="stylesheet" href="style/style.css">
+
+    <script src="js/handlebarsHelpers.js"></script>
+
+    <script src="js/cinemas/cinemaService.js"></script>
+    <script src="js/user/userService.js"></script>
+    <script src="js/movie/movieService.js"></script>
+    <script src="js/room/roomService.js"></script>
+
+    <script src="js/room/roomsController.js"></script>
+    <script src="js/program/programController.js"></script>
+    <script src="js/program/programDetailsController.js"></script>
+    <script src="js/cinemas/cinemasController.js"></script>
+    <script src="js/homeController.js"></script>
+    <script src="js/navBarController.js"></script>
+    <script src="js/movie/movieDetailsControlle.js"></script>
+    <script src="js/user/userController.js"></script>
+    <script src="js/user/profileController.js"></script>
+
+    <script src="js/router.js"></script>
+</head>
+
+<body>
+
+    <div id="nav"> </div>
+    <div id="wrapper"> </div>
+
+
+    <script id="cinemas-template-3x2" type="text/x-handlebars-template">
+        <div class="container">
+            <div class="template">
+                <button id="grid-btn" class="btn btn-primary">2x3</button>
+                <ul class="list-group" id="cinemas">
+                    {{#grouped_each 3 cinemas}}
+                    <div class="row">
+                        {{#each this}}                            
+                        <div class="col">
+                            <li id="{{cinemaId}}" class="item-list cinema">
+                                <img class="thumbnail" src="{{image}}" alt="">
+                                <div class="cinema-info">
+                                    <h3>{{name}}</h3>
+                                    <p>{{address}}</p>
+                                    <p>{{phone}}</p>
+                                </div>
+                            </li>
+                        </div>
+                        {{/each}}                            
+                    </div>
+                    {{/grouped_each}}
+                </ul>
+            </div>
+        </div>
+    </script>
+
+    <script id="cinemas-template-2x3" type="text/x-handlebars-template">
+        <div class="container">
+            <div class="template">
+                <button id="grid-btn" class="btn btn-primary">3x2</button>
+                <ul class="list-group" id="cinemas">
+                    {{#grouped_each 2 cinemas}}
+                    <div class="row">
+                        {{#each this}}                            
+                        <div class="col">
+                            <li id="{{cinemaId}}" class="item-list">
+                                <img class="thumbnail" src="{{image}}" alt="">
+                                <div class="cinema-info">
+                                    <h3>{{name}}</h3>
+                                    <p>{{address}}</p>
+                                    <p>{{phone}}</p>
+                                </div>
+                            </li>
+                        </div>
+                        {{/each}}                            
+                    </div>
+                    {{/grouped_each}}
+                </ul>
+            </div>
+        </div>
+    </script>
+
+    <script id="cinema-template" type="text/x-handlebars-template">
+        
+    </script>
+
+    <script id="program-template" type="text/x-handlebars-template">
+        <div class="container">
+            <div class="template program-cinema">
+                <div class="row">
+                    <div class="col">
+                        <h1>ПРОГРАМА</h1>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <ul id="program-cinema" class="nav nav-pills nav-fill">
+                        {{#each cinemaProgram}}
+                        <li class="nav-item">
+                            <a class="nav-link active">{{date}}, {{day}}</a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <hr>
+                <div id="program-list">
+                    
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="program-list-template" type="text/x-handlebars-template">        
+        <div class="container">
+        <div class="template-no-shadow">
+            <div class="row movie-item" id="{{movie.id}}">
+            <div class="col col-sm-2">
+                <img width="130" src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}" alt="">
+            </div>
+            <div class="col">
+                <h1>{{movie.title}}</h1>
+                <p>премиера {{movie.release_date}}</p>
+                <ul>
+                    {{#each hours}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+                <p>*За филми в 3D формат са ви необходими 3D очила, които се купуват отделно от билета в кината на цена 2 лв./бр</p>
+            </div>
+            <div class="col col-sm-2">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </script>
+
+    <script id="imax-glass" type="text/x-handlebars-template">
+        <div class="container template">
+            <div class="row">
+                <div class="col">
+                    <ul>
+                        {{#each room.glass}}
+                        <li class="text">{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="col">
+                    <iframe width="420" height="250" src="{{room.glassVideo}}">
+                    </iframe>
+                </div>
+            </div>
+        </div>    
+    </script>
+
+    <script id="imax-reality" type="text/x-handlebars-template">
+        <div class="container template">
+            <div id="reality-css">
+                <div>
+                    {{#each room.roomInfo}}
+                    <p>{{this}}</p>
+                    {{/each}}
+                </div>
+                {{#each room.roomImages}}
+                <div>
+                    <img src="{{this}}" alt="">
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </script>
+
+    <script id="vipBar" type="text/x-handlebars-template">
+        <div class="container template">
+            <div class="col">
+                {{#each room.info}}
+                <p class="text">{{this.title}}</p>
+                {{#each this.list}}
+                <p class="text">{{this}}</p>
+                {{/each}}
+                {{/each}}
+            </div>
+            {{#each room.drinks}}
+            <div class="row">
+                <div class="col">
+                    <img src="{{this.img}}" alt="">
+                </div>
+                <div class="col text">{{this.description}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </script>
+        
+    <script id="luxeExperience" type="text/x-handlebars-template">
+        <div class="container template">
+            <p class="text">{{room.reald.rdExperience}}</p>
+            <br/>
+            <p class="text">{{room.reald.title}}</p>
+            <ul>
+            {{#each room.reald.list}}
+            <li class="text">{{this}}</li>
+            {{/each}}
+            </ul>
+            {{#each room.reald.info}}
+            <p class="text">{{this}}</p>
+            {{/each}}
+        </div>
+    </script>
+
+    <script id="luxeGlass" type="text/x-handlebars-template">
+        <div class="container template">        
+            <div class="row">
+                <h2 class="text">{{room.glasses.title}}</h2>
+            </div>
+            <div class="row">
+                <ul>
+                    {{#each room.glasses.info}}
+                    <li class="text">{{this}}</li>
+                    {{/each}}
+                </ul>
+                
+            </div>
+            <div class="row">
+                <ul>
+                    {{#each room.glasses.attention}}
+                    <li class="text"><strong>{{this}}</strong></li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </script>
+
+    <script id="preTechology" type="text/x-handlebars-template">
+        <div class="container template">
+            <div id="techCss">
+            {{#each room.premInfo}}
+            <div class="row">
+            <div class="col">
+                {{#each this.text}}
+                <span class="text">{{this}}</span>
+                {{/each}}
+            </div>
+            <div class="col">
+                <p>{{video}}</p>
+                    <iframe width="420" height="250" src="https://www.youtube.com/embed/{{andVideo}}"></iframe>
+            </div>
+            </div>
+            {{/each}}
+            </div>
+        </div>
+    </script>
+
+    <script id="video" type="text/x-handlebars-template">
+        <div class="container template">
+            {{#each room.video}}
+            <iframe width="420" height="250" src="https://www.youtube.com/embed/{{this}}">
+            </iframe>
+            {{/each}}
+        </div>
+    </script>
+
+    <script id="rooms-template" type="text/x-handlebars-template">
+        <div id="demo" class="carousel slide" data-ride="carousel">
+            <div class="row">
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{room.ima}}" alt="room1" >
+                </div>
+                {{#each room.images}}
+                <div class="carousel-item">
+                 <img src= "{{this}}" alt="room2" >
+                </div>
+                {{/each}}
+            </div>
+            
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+            </div>
+        </div>
+
+
+        <div id="room-name" class="row">
+           
+        </div>
+            <div id="room-info">
+                <div id="imax">
+                    <nav id="room-nav" class="navbar navbar-expand-lg navbar-dark bg-company-dark ">
+                        <div class="collapse navbar-collapse container">
+                            <ul class="navbar-nav">
+                                <li class="nav-item nav-link">ФИЛМИ</li>
+                                <li class="nav-item nav-link">ОЧИЛА</li>
+                                <li class="nav-item nav-link">ВЛЕЗ В РЕАЛНОСТТА</li>
+                                <li class="nav-item nav-link">ВИДЕО</li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div id="premium">
+                    <nav id="room-nav" class="navbar navbar-expand-lg navbar-dark bg-company-dark">
+                        <div class="collapse navbar-collapse container">
+                            <ul class="navbar-nav">
+                                <li class="nav-item nav-link">ФИЛМИ</li>
+                                <li class="nav-item nav-link">PREMIUM ТЕХНОЛОГИЯ</li>
+                                <li class="nav-item nav-link">ВИДЕО</li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div id="luxe">
+                    <nav id="room-nav" class="navbar navbar-expand-lg navbar-dark bg-company-dark">
+                        <div class="collapse navbar-collapse container">
+                            <ul class="navbar-nav">
+                                <li class="nav-item nav-link">ФИЛМИ</li>
+                                <li class="nav-item nav-link">ОЧИЛА</li>
+                                <li class="nav-item nav-link">LUXE: A REALD EXPERIENCE</li>
+                                <li class="nav-item nav-link">ВИДЕО</li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+             <div id="vip">
+                 <nav id="room-nav" class="navbar navbar-expand-lg navbar-dark bg-company-dark">
+                     <div class="collapse navbar-collapse container">
+                         <ul class="navbar-nav">
+                             <li class="nav-item nav-link">ФИЛМИ</li>
+                             <li class="nav-item nav-link">ЛУКСОЗНО КИНОИЗЖИВЯВАНЕ</li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                
+            </div>
+            
+            <div id="info" class="row">
+
+        </div>
+
+    </script>
+
+    <script id="navbar-template-not-logged" type="text/x-handlebars-template">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-company-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse container" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li id="imax-room" class="nav-item">
+                        <a class="nav-link">IMAX</a>
+                    </li>
+                    <li id="premium-room" class="nav-item">
+                        <a class="nav-link">PREMIUM</a>
+                    </li>
+                    <li id="luxe-room" class="nav-item">
+                        <a class="nav-link">LUXE</a>
+                    </li>
+                    <li id="vip-room" class="nav-item">
+                        <a class="nav-link">VIP</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mx-auto">
+                    <li id="home" class="nav-item">
+                        <a class="nav-link">
+                            <img class="navbar-brand center" src="assets/images/kino-arena-logo.png" width="200px" alt="">
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li id="cinemas" class="nav-item">
+                        <a  class="nav-link">КИНА</a>
+                    </li>
+                    <li id="program" class="nav-item">
+                        <a class="nav-link"><span class="fa fa-calendar"></span> ПРОГРАМА</a>
+                    </li>
+                    <li id="register" class="nav-item">
+                        <a class="nav-link"><span class="fa fa-plus"></span> РЕГИСТРАЦИЯ</a>
+                    </li>
+                    <li id="login" class="nav-item">
+                        <a class="nav-link"><span class="fa fa-user"></span> ВХОД</a>
+                    </li> 
+                    <!-- <li class="nav-item">
+                        <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Име на филм" aria-label="Search">
+                        <button class="btn btn-outline-primary my-2 my-sm-0">ТЪРСЕНЕ</button>
+                        </form>
+                    </li>  -->
+                </ul>
+            </div>
+        </nav>
+    </script>
+
+    <script id="navbar-template-logged" type="text/x-handlebars-template">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-company-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse container" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li id="imax-room" class="nav-item">
+                        <a class="nav-link">IMAX</a>
+                    </li>
+                    <li id="premium-room" class="nav-item">
+                        <a class="nav-link">PREMIUM</a>
+                    </li>
+                    <li id="luxe-room" class="nav-item">
+                        <a class="nav-link">LUXE</a>
+                    </li>
+                    <li id="vip-room" class="nav-item">
+                        <a class="nav-link">VIP</a>
+                    </li>
+                    <li id="register" class="nav-item">
+                    </li>
+                    <li id="login" class="nav-item">
+                    </li>
+                </ul>
+                <ul class="navbar-nav mx-auto">
+                    <li id="home"class="nav-item">
+                        <a class="nav-link">
+                            <img class="navbar-brand center" src="assets/images/kino-arena-logo.png" width="200px" alt="">
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li id="cinemas" class="nav-item">
+                        <a   class="nav-link">КИНА</a>
+                    </li>
+                    <li id="program" class="nav-item">
+                        <a class="nav-link"><span class="fa fa-calendar"></span> ПРОГРАМА</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <div class="btn-group">
+                            <button 
+                                class="btn btn-danger navbar-btn btn-md" 
+                                id="profile" role="button" 
+                                data-toggle="dropdown" aria-haspopup="true" 
+                                aria-expanded="false"><span class="fa fa-user"></span> {{user.username}}</button>
+                            <button 
+                                type="button" 
+                                class="navbar-btn btn btn-danger btn-sm dropdown-toggle dropdown-toggle-split dropdown" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false">
+                            <span class="caret"></span>
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a id="settigns" class="dropdown-item"><span class="fa fa-cog"></span> Настройки</a>
+                              <a id="favoriteMovies" class="dropdown-item"> Любими филми</a>
+                              <a class="dropdown-item">Another action</a>
+                          <div class="dropdown-divider"></div>
+                              <a id="exit-btn" class="dropdown-item"><span class="fa fa-sign-out"></span> Изход</a>
+                          </div>
+                        </div>
+                    </li>
+                    <!-- <div class="btn-group" appDropdown>
+                            <button class="btn btn-danger navbar-btn btn-sm">UserName</button>
+                            <button 
+                              type="button" 
+                              class="navbar-btn btn btn-danger btn-sm dropdown-toggle dropdown-toggle-split dropdown" 
+                              data-toggle="dropdown" 
+                              aria-haspopup="true" 
+                              aria-expanded="false">
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a routerLink="/profile" style="cursor: pointer;"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                                <li><a style="cursor: pointer;"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                                <li><a style="cursor: pointer;"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                            </ul>
+                          </div> -->
+                </ul>
+            </div>
+        </nav>
+    </script>
+
+    <script id="profile-template" type="text/x-handlebars-template">
+        <div class="container">
+            <div id="profile-page" class="template">
+                <div class="col">
+                    <h3>МОЯТ ПРОФИЛ</h3>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="container">        
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Персонална информация</a>
+                                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Промяна на паролата</a>
+                                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Моите филми</a>
+                                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">История на резервациите</a>
+                            </div>
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="login-template" type="text/x-handlebars-template">
+        <div class="template container">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div id='logDiv' class="container" class="form-group">
+                            <div class="row">
+                                <input type="text" id="log-email" placeholder="Email" class="form-control">
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <input type="password" id="log-password" placeholder="Password" class="form-control">
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <button class="btn btn-primary" id='loginButton'>Log In</button> 
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <p>Don't have an account ?</p>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <button id='createButton' class="btn btn-secondary">Create new account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id='register-template' type="text/x-handlebars-template">
+        <div class="container">
+            <div class="template">
+                <div id='registerDiv'>
+                    <div class='row'>
+                        <input type="text" class='form-control' placeholder="Потребителско име">
+                    </div>
+                    <div class='row'>
+                        <input type="email" class='form-control' placeholder="Въведи имейл">
+                    </div>
+                    <div class='row'>
+                        <input type="password" class='form-control' placeholder="Въведи парола">
+                    </div>
+                    <div class='row'>
+                        <input type="password" class='form-control' placeholder="Повтори паролата">
+                    </div>
+                    <div class='row'>
+                        <button id='regButton' class="btn btn-primary btn-lg">Регистрирай се</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="favorite-movies-template" type="text/x-handlebars-template">
+        <div class="template container">
+                <div class="row">
+                    <div class="col">
+                            <img width="250" src="https://image.tmdb.org/t/p/w300/{{movie.poster_path}}" alt="">
+                    </div>
+                    <div class="col">
+                        <h1>{{movie.title}}</h1>
+                    </div>
+                </div>
+        </div>
+    </script>
+
+    <script id="movie-details-template" type="text/x-handlebars-template">
+           
+        <div class="template container">
+            <div class="row">
+                <div class="col">
+                    <h1>{{movie.title}}</h1>
+                </div>
+                <div class="col">
+                    <button id="add-favorite-btn" class="btn btn-outline-primary"><span class="fa fa-star"></span> ДОБАВИ В ЛЮБИМИ</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <img id="poster-details" width="250" src="https://image.tmdb.org/t/p/w300/{{movie.poster_path}}" alt="">
+                </div>
+                <div class="col">
+                    <iframe width="650" height="375" src="https://www.youtube.com/embed/{{movie.videos.results.[0].key}}">
+                    </iframe> 
+                </div>
+            </div>
+            <hr>
+            <div class="row">    
+                <div class="col-sm-5">
+                    <h4>Duration : {{movie.runtime}} minutes</h4>
+                    <p>Release date : {{movie.release_date}}</p>
+                    <p>Genres : </p>
+                    {{#each movie.genres}}
+                    <p>{{name}}</p>
+                    {{/each}}
+                </div>
+                <div class="col">
+                    <p>{{movie.overview}}</p>
+                </div>
+            </div>
+            <hr>
+            <h1 id="" >ПРОГРАМА</h1>
+            <ul id="movie-program" class="nav nav-pills nav-fill">
+                {{#each program.dates}}
+                <li id="{{@index}}" class="nav-item dates">
+                    <a class="nav-link active" >{{date}}</a>
+                    <p>{{day}}</p>
+                </li>
+                {{/each}}
+            </ul>    
+            <div id="movie-program-hours" class="list-group">
+
+            </div>
+        </div>
+    </script>
+
+    <script id="home-template" type="text/x-handlebars-template">
+        <div class="container">
+            <div class="template">
+                <div class="container">
+                    <div class="container">
+                        <div class="row" id="date-search">
+                            <select class="form-control" id="cinema-select">
+                                <option value="{{cinemaId}}"></option>
+                                {{#each cinemas}}
+                                <option value="{{cinemaId}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                            <select class="form-control" id="date-select">
+                                <option value="{{cinemaId}}"></option>
+                            </select>
+                            <select class="form-control" id="movie-select">
+                            </select>
+                            <button id="search-btn" class="btn btn-outline-success" disabled>ТЪРСЕНЕ</button>
+                            <input list="movies" type="text" class="form-control" id="name-search">
+                            <button id="name-search-btn" class="btn btn-success">ТЪРСЕНЕ</button>
+    
+                            <datalist id="movies">
+        
+                            </datalist>
+                        </div>
+                     
+                    </div>
+                </div>
+            
+                <div class="container" id="news">
+                    <div class="row">
+                        <div class="template-no-shadow col" id="now-playing">
+                            <h3>Now Playing</h3>
+                            <ul>
+                                {{#grouped_each 2 nowPlaying}}
+                                <br/>
+                                <div class="row">
+                                    {{#each this}}
+                                    <li id="{{id}}" class="col movie">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <br>
+                                        <h4>{{title}}</h4>
+                                        <img width="" src="https://image.tmdb.org/t/p/w200/{{poster_path}}" class="thumbnail" alt="">
+                                    </li>
+                                    <br>
+                                    {{/each}}
+                                </div>
+                                {{/grouped_each}}
+                            </ul>
+                        </div>
+                        <div class="template-no-shadow col" id="coming-soon">
+                            <h3>Coming Soon</h3>
+                            <ul>
+                                {{#grouped_each 2 commingSoon}}
+                                <br/>
+                                <div class="row">
+                                    {{#each this}}
+                                    <li id="{{id}}" class="col movie ">
+                                        <h4>{{title}}</h4>
+                                        <img width="" src="https://image.tmdb.org/t/p/w200/{{poster_path}}" class="thumbnail" alt="">
+                                    </li>
+                                    {{/each}}
+                                </div>
+                                {{/grouped_each}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>  
+    </script>
+
+    <script id="program-hours-template" type="text/x-handlebars-template">
+        {{#each hours}}
+        <a style="cursor: pointer;" class="list-group-item clearfix">
+            <div class="row">
+                <div class="col">
+                    <h1 class="list-group-item-heading">Cinema</h1>
+                    <h1 class="list-group-item-heading">address</h1>
+                </div>
+                <div class="col">
+                    <h1 class="list-group-item-heading">{{this}}</h1>
+                </div>
+            </div>
+        </a>
+        {{/each}}
+    </script>
+
+</body>
+
+</html>
